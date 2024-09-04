@@ -4,6 +4,7 @@ import mapboxgl, { Map as M } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Feature, Polygon, GeoJsonProperties } from "geojson";
 import { calculateCentroid } from "@/utils/calculateCentroid";
+
 const locations = [
   [
     [48.3550941, 40.0107106], // First point
@@ -50,21 +51,23 @@ export default function Map({ selectedLoc }: MapProps) {
   const mapContainerRef = useRef<null | HTMLDivElement>(null);
   const mapRef = useRef<M | null>(null); // Reference to store the map instance
 
-  const apiKey = "7SzsQRqmB4FARXEyZeuJ";
+  const apiKey = "5LMhdccvYyOC6duV7ZNR";
   const mapStyleUrl =
     "https://api.maptiler.com/maps/00f52ade-3eb9-4aa1-bcfa-dc9d7a7136f4/style.json?key=";
 
   useEffect(() => {
-    mapboxgl.accessToken = "no-token-needed";
+  
     const map = new mapboxgl.Map({
       container: mapContainerRef?.current || "",
       style: mapStyleUrl + apiKey,
       center: [48.30799598261211, 40.03018436474803], // Longitude, Latitude
       zoom: 14,
+      accessToken: 'pk.eyJ1IjoiZGFlbW9uOTk5OSIsImEiOiJjbTBvYmUzZTIwN2V0MnFyM25rb3d3eHBpIn0.R2AS9Nw453PbfpXyNYdKKw'
     });
     mapRef.current = map;
 
     map.on("load", () => {
+      console.log("isledi");
       const polygons: Feature<Polygon, GeoJsonProperties>[] = [
         {
           type: "Feature",
@@ -137,18 +140,16 @@ export default function Map({ selectedLoc }: MapProps) {
 
   useEffect(() => {
     if (mapRef.current) {
-      const [lat, long] = calculateCentroid(locations[selectedLoc])
+      const [lat, long] = calculateCentroid(locations[selectedLoc]);
       mapRef.current.flyTo({
         center: [lat, long], // Set the new center
         zoom: 14, // Set the new zoom level
         speed: 1.2, // Speed of the transition
         curve: 1.42, // How much the map "curves" as it moves (1 means linear)
         easing: (t) => t, // Easing function to control the animation
-      })
-      
-      
+      });
     }
-  }, [selectedLoc])
+  }, [selectedLoc]);
   return (
     <>
       <div
