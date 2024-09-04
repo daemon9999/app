@@ -127,8 +127,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',    
+    'http://localhost:5173', 
+    'http://164.92.253.215:5173',   
+
 ]
+
+ALLOWED_HOSTS = ['164.92.253.215','localhost']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
