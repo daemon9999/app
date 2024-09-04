@@ -46,10 +46,10 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
   });
   const getSpecImage = () => {
     const request_1 = axios.get(
-      `http://localhost:8000/api/spec/${selectedLoc + 1}`
+      `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`
     );
     const request_2 = axios.get(
-      `http://localhost:8000/api/insights/${selectedLoc + 1}`
+      `http://164.92.253.215:8000/api/insights/${selectedLoc + 1}`
     );
     Promise.all([request_1, request_2])
       .then(
@@ -57,7 +57,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
           const { data } = response_2.data;
           setData((prev) => ({
             ...prev,
-            img: `http://localhost:8000/api/spec/${selectedLoc + 1}`,
+            img: `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`,
             hectare: data["Hectare"],
             problems: data["Problems"],
             recommendations: data["Recommendations"],
@@ -74,7 +74,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
   const getForecast = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/forecast/${selectedLoc + 1}`
+        `http://164.92.253.215:8000/api/forecast/${selectedLoc + 1}`
       );
       const { data: d } = res.data;
       setData((prev) => ({
@@ -92,7 +92,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
   const getFuture = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/future/${selectedLoc + 1}`
+        `http://164.92.253.215:8000/api/future/${selectedLoc + 1}`
       );
       const { data: d } = res.data;
       setData((prev) => ({
@@ -122,7 +122,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
       forecastRef.current?.scrollIntoView({
         behavior: "smooth",
       });
-    } 
+    }
   }, [forecastLoading]);
   useEffect(() => {
     if (futureLoading === "loading") {
@@ -130,7 +130,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
         behavior: "smooth",
       });
       getFuture();
-    } 
+    }
   }, [futureLoading]);
   if (["init", "loading"].includes(isLoading)) {
     return (
@@ -181,12 +181,15 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
         />
       )}
       {forecastLoading === "loading" && (
-        <div ref={forecastRef} className="bg-400 p-10 min-h-[600px] flex items-center  justify-center rounded-md">
+        <div
+          ref={forecastRef}
+          className="bg-400 p-10 min-h-[600px] flex items-center  justify-center rounded-md"
+        >
           <FarmLoader id={2} />
         </div>
       )}
       {forecastLoading === "success" && (
-        <div  className="flex flex-col gap-y-5">
+        <div className="flex flex-col gap-y-5">
           <ForecastData
             dates={data.dates}
             recipitations={data.recipitations}
@@ -203,12 +206,15 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
         </div>
       )}
       {futureLoading === "loading" && (
-        <div ref={futureRef} className="bg-100 p-10 min-h-[600px] flex items-center  justify-center rounded-md">
+        <div
+          ref={futureRef}
+          className="bg-100 p-10 min-h-[600px] flex items-center  justify-center rounded-md"
+        >
           <FarmLoader id={1} />
         </div>
       )}
       {futureLoading === "success" && (
-        <div  className="flex flex-col gap-y-5">
+        <div className="flex flex-col gap-y-5">
           <FutureData
             dates={data.dates}
             totalWater={data.totalWater}
