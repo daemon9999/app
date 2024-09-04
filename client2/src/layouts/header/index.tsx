@@ -10,7 +10,7 @@ import classNames from "classnames";
 import { HiMiniCurrencyDollar } from "react-icons/hi2";
 import { useSiteContext } from "@/context";
 export default function Header() {
-  const { isOpen, setIsOpen } = useSiteContext();
+  const { setIsOpen } = useSiteContext();
   const linkStyle = `flex items-center  gap-x-2 bg-200 text-400 px-3 py-1 text-base lg:text-lg rounded border border-200 hover:bg-transparent 
   hover:text-200 transition-all duration-300`;
 
