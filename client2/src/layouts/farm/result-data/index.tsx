@@ -44,31 +44,30 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
     totalWater: [],
     wps: [],
   });
-  const getSpecImage = () => {
-    const request_1 = axios.get(
-      `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`
-    );
-    const request_2 = axios.get(
-      `http://164.92.253.215:8000/api/insights/${selectedLoc + 1}`
-    );
-    Promise.all([request_1, request_2])
-      .then(
-        axios.spread((_response_1, response_2) => {
-          const { data } = response_2.data;
-          setData((prev) => ({
-            ...prev,
-            img: `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`,
-            hectare: data["Hectare"],
-            problems: data["Problems"],
-            recommendations: data["Recommendations"],
-            status: data["Status"],
-          }));
-          setIsLoading("success");
-        })
-      )
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  const getSpecImage = async () => {
+    try {
+      const response_1 = await axios.get(
+        `http://164.92.253.215:8000/api/insights/${selectedLoc + 1}`
+      );
+      const { data } = response_1.data;
+      setData((prev) => ({
+        ...prev,
+        hectare: data["Hectare"],
+        problems: data["Problems"],
+        recommendations: data["Recommendations"],
+        status: data["Status"],
+      }));
+      await axios.get(
+        `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`
+      );
+      setData((prev) => ({
+        ...prev,
+        img: `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`,
+      }))
+      setIsLoading("success");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const getForecast = async () => {

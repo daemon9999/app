@@ -35,6 +35,14 @@ def get_spec(request, pk):
 
     return response
 
+def get_specById(request, pk):
+    processor = Processor()
+    processor.update_field_id(pk)
+    # Call the get_spec method
+    file = processor.get_spec2()
+
+    return response
+
 @api_view(['GET'])
 def get_forecast(request, pk):
 

@@ -60,6 +60,13 @@ class Processor(models.Model):
         spec_image.save(imgPath)
         return  open(imgPath, 'rb')    
 
+
+    def get_spec(self) -> np.ndarray:
+        """The function to generate spectrum with soil moisture map and save"""
+        imgPath =  os.path.join(current_dir, 'images', 'field_{}.png'.format(self.field_id))
+        return  open(imgPath, 'rb')    
+
+
     def __predict(self) -> np.ndarray:
         _, temperature, precipitation = self.get_weather_forecast()
         soil_moisture_change = predict_soil_moisture(model=self.model, temperature=temperature, precipitation=precipitation)
@@ -104,6 +111,16 @@ class Processor(models.Model):
 
         field_size = get_hectares(soil_moisture_map=sm, poly=poly, src=src)
         status = self.get_status_report(sm=sm)
+
+        spec, src = get_field_spec(field_id=self.field_id)
+        sm_map, _, _= self.get_sm_map()
+        poly = load_geojson(field_id=self.field_id)     
+
+        spec_formatted = format_spec(spec=spec, sm_map=sm_map, poly=poly, src=src)
+        imgPath =  os.path.join(current_dir, 'images', 'field_{}.png'.format(self.field_id))
+        spec_image = convert2image(spec_formatted.transpose([1, 2, 0]))
+        spec_image.save(imgPath)
+
 
         data['Hectare'].append('{} hectares'.format(field_size))
         data['Status'].append(status)
