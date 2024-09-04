@@ -8,9 +8,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  TooltipItem,
-  ChartOptions,
-  Tick,
 } from "chart.js";
 
 ChartJS.register(
