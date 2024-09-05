@@ -44,7 +44,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
     totalWater: [],
     wps: [],
   });
-  const url = process.env.NODE_ENV === 'development' ? 'localhost' :'164.92.253.215'
+  const url = "164.92.253.215";
   const getSpecImage = async () => {
     try {
       const response_1 = await axios.get(
@@ -58,13 +58,11 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
         recommendations: data["Recommendations"],
         status: data["Status"],
       }));
-      await axios.get(
-        `http://${url}:8000/api/spec/${selectedLoc + 1}`
-      );
+      await axios.get(`http://${url}:8000/api/spec/${selectedLoc + 1}`);
       setData((prev) => ({
         ...prev,
         img: `http://${url}:8000/api/spec/${selectedLoc + 1}`,
-      }))
+      }));
       setIsLoading("success");
     } catch (error) {
       console.error("Error:", error);
