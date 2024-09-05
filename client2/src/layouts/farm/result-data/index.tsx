@@ -44,10 +44,11 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
     totalWater: [],
     wps: [],
   });
+  const url = process.env.NODE_ENV === 'development' ? 'localhost' :'164.92.253.215'
   const getSpecImage = async () => {
     try {
       const response_1 = await axios.get(
-        `http://164.92.253.215:8000/api/insights/${selectedLoc + 1}`
+        `http://${url}:8000/api/insights/${selectedLoc + 1}`
       );
       const { data } = response_1.data;
       setData((prev) => ({
@@ -58,11 +59,11 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
         status: data["Status"],
       }));
       await axios.get(
-        `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`
+        `http://${url}:8000/api/spec/${selectedLoc + 1}`
       );
       setData((prev) => ({
         ...prev,
-        img: `http://164.92.253.215:8000/api/spec/${selectedLoc + 1}`,
+        img: `http://${url}:8000/api/spec/${selectedLoc + 1}`,
       }))
       setIsLoading("success");
     } catch (error) {
@@ -73,7 +74,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
   const getForecast = async () => {
     try {
       const res = await axios.get(
-        `http://164.92.253.215:8000/api/forecast/${selectedLoc + 1}`
+        `http://${url}:8000/api/forecast/${selectedLoc + 1}`
       );
       const { data: d } = res.data;
       setData((prev) => ({
@@ -91,7 +92,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
   const getFuture = async () => {
     try {
       const res = await axios.get(
-        `http://164.92.253.215:8000/api/future/${selectedLoc + 1}`
+        `http://${url}:8000/api/future/${selectedLoc + 1}`
       );
       const { data: d } = res.data;
       setData((prev) => ({

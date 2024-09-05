@@ -60,6 +60,8 @@ export default function FutureData({
     ],
   };
   const options_1 = {
+    responsive: true,
+    maintainAspectRatio: false, 
     scales: {
       x: {
         ticks: {
@@ -81,6 +83,8 @@ export default function FutureData({
     },
   };
   const options_2 = {
+    responsive: true,
+    maintainAspectRatio: false, 
     scales: {
       x: {
         ticks: {
@@ -129,19 +133,19 @@ export default function FutureData({
     ],
   };
   return (
-    <div className="bg-400 p-10 h-auto flex flex-col items-center gap-y-10   rounded-md">
+    <div className="bg-400 p-4 xs:p-7 sm:p-10 h-auto flex flex-col items-center gap-y-4 xs:gap-y-7 sm:gap-y-10   rounded-md">
       <h2 className="uppercase text-3xl font-montserrat text-900 font-black tracking-wider ">
         Future Data
       </h2>
-      <div className="flex  gap-x-10 justify-between w-full flex-auto">
-        <div className="w-1/2 flex flex-col gap-y-3">
-          <Line options={options_1} data={data_1} />
+      <div className="flex gap-y-10  md:flex-row flex-col gap-x-10 justify-between w-full flex-auto">
+        <div className="w-full md:w-1/2 flex flex-col gap-y-3">
+          <div style={{ width: "100%", height: "auto", minHeight: "300px" }}><Line options={options_1} data={data_1} /></div>
           <p className="self-center text-center text-10 font-semibold  uppercase text-lg">
             Amount of water per square meter versus Date
           </p>
         </div>
-        <div className="w-1/2 flex flex-col gap-y-3">
-          <Line options={options_2} data={data_2} />
+        <div className="w-full md:w-1/2 flex flex-col gap-y-3">
+          <div style={{ width: "100%", height: "auto", minHeight: "300px" }}><Line options={options_2} data={data_2} /></div>
           <p className="self-center text-center text-10 font-semibold  uppercase text-lg">
             Total water versus Date
           </p>

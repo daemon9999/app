@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useMediaQuery } from "react-responsive";
 
 ChartJS.register(
   CategoryScale,
@@ -43,6 +44,12 @@ export default function ForecastData({
   recipitations,
   temperatures,
 }: ForecastDataProps) {
+  const isXs = useMediaQuery({
+    query: "(min-width: 480)",
+  });
+  const fontSize = () => {
+    return isXs ? 16 : 12;
+  };
   dates = dates.map((date) => {
     const d = new Date(date);
     return `${d.getDate()} ${months[d.getMonth()]}`;
@@ -60,9 +67,14 @@ export default function ForecastData({
     ],
   };
   const options_1 = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         ticks: {
+          font: {
+            size: fontSize(),
+          },
           color: "blue", // X-axis label color
         },
         grid: {
@@ -71,19 +83,26 @@ export default function ForecastData({
       },
       y: {
         ticks: {
+          font: {
+            size: fontSize(),
+          },
           color: "green", // Y-axis label color
         },
         grid: {
-          color: "green", // Y-axis grid line color     
+          color: "green", // Y-axis grid line color
         },
       },
     },
   };
   const options_2 = {
-    
+    responsive: true,
+    maintainAspectRatio: false, // Allows the chart to adjust height
     scales: {
       x: {
         ticks: {
+          font: {
+            size: fontSize(),
+          },
           color: "red", // X-axis label color
         },
         grid: {
@@ -92,11 +111,15 @@ export default function ForecastData({
       },
       y: {
         beginAtZero: true,
+
         ticks: {
+          font: {
+            size: fontSize(),
+          },
           color: "green", // Y-axis label color
         },
         grid: {
-          color: "green", // Y-axis grid line color     
+          color: "green", // Y-axis grid line color
         },
       },
     },
@@ -118,14 +141,22 @@ export default function ForecastData({
       <h2 className="uppercase text-3xl font-montserrat text-900 font-black tracking-wider ">
         Forecast Data
       </h2>
-      <div className="flex gap-x-4 xs:gap-x-7 sm:gap-x-10 justify-between w-full flex-auto">
-        <div className="w-1/2 flex flex-col gap-y-3">
-          <Line options={options_1} data={data_1} />
-          <p className="self-center text-center text-10 font-semibold  uppercase text-lg">Temperature versus Date</p>
+      <div className="flex flex-col gap-y-10 md:flex-row gap-x-4 xs:gap-x-7 sm:gap-x-10 justify-between w-full flex-auto">
+        <div className=" w-full md:w-1/2 flex flex-col gap-y-3">
+          <div style={{ width: "100%", height: "auto", minHeight: "300px" }}>
+            <Line options={options_1} data={data_1} />
+          </div>
+          <p className="self-center text-center text-10 font-semibold  uppercase text-lg">
+            Temperature versus Date
+          </p>
         </div>
-        <div className="w-1/2 flex flex-col gap-y-3">
-          <Line  options={options_2} data={data_2} />
-          <p className="self-center text-center text-10 font-semibold  uppercase text-lg">Recipitation versus Date</p>
+        <div className=" w-full md:w-1/2 flex flex-col gap-y-3">
+          <div style={{ width: "100%", height: "auto", minHeight: "300px" }}>
+            <Line options={options_2} data={data_2} />
+          </div>
+          <p className="self-center text-center text-10 font-semibold  uppercase text-lg">
+            Recipitation versus Date
+          </p>
         </div>
       </div>
     </div>

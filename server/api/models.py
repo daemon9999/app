@@ -28,7 +28,7 @@ MODEL_PATH = os.path.join(current_dir, 'saved_models', 'model_cpu.pt')
 PATH_IMAGE_DESCRIPTION = os.path.join(current_dir, 'data/sentinel_data/fields') 
 def load_model(model_path: str  = MODEL_PATH):
     """Load Soil Moisture Predictor"""
-    print(MODEL_PATH)
+    
     checkpoints = torch.load(model_path)
     model = SoilMoisturePredictor()
     model.load_state_dict(checkpoints)

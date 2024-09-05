@@ -56,18 +56,17 @@ export default function Map({ selectedLoc }: MapProps) {
     "https://api.maptiler.com/maps/00f52ade-3eb9-4aa1-bcfa-dc9d7a7136f4/style.json?key=";
 
   useEffect(() => {
-  
     const map = new mapboxgl.Map({
       container: mapContainerRef?.current || "",
       style: mapStyleUrl + apiKey,
       center: [48.30799598261211, 40.03018436474803], // Longitude, Latitude
       zoom: 14,
-      accessToken: 'pk.eyJ1IjoiZGFlbW9uOTk5OSIsImEiOiJjbTBvYmUzZTIwN2V0MnFyM25rb3d3eHBpIn0.R2AS9Nw453PbfpXyNYdKKw'
+      accessToken:
+        "pk.eyJ1IjoiZGFlbW9uOTk5OSIsImEiOiJjbTBvYmUzZTIwN2V0MnFyM25rb3d3eHBpIn0.R2AS9Nw453PbfpXyNYdKKw",
     });
     mapRef.current = map;
 
     map.on("load", () => {
-      console.log("isledi");
       const polygons: Feature<Polygon, GeoJsonProperties>[] = [
         {
           type: "Feature",
@@ -124,7 +123,6 @@ export default function Map({ selectedLoc }: MapProps) {
           "fill-opacity": 0.3, // Transparency of the polygon
         },
       });
-
       map.addLayer({
         id: "polygons-outline",
         type: "line",
