@@ -5,6 +5,7 @@ from ..preprocessing import free_outliers, min_max_scale, calibrate
 from shapely import Polygon, Point
 import numpy as np
 import geojson
+from geopandas import gpd
 ANGLE = 65 * np.pi / 180
 K = 1
 current_dir = os.path.dirname(os.path.dirname(__file__))
@@ -116,10 +117,7 @@ def get_hectares(soil_moisture_map: np.ndarray, poly: Polygon, src: rasterio.io.
     lons = lons.reshape(-1)
     lats = lats.reshape(-1)
 
-    index_count = 0
-    for i in range(lons.size):
-        point = Point([lons[i], lats[i]])
-        if point.within(poly):
-            index_count += 1
+    points = gpd.points_from_xy(lons, lats)
+    conds = points.within(poly)
     
-    return index_count * 100 / 10 ** 4
+    return conds.sum() * 100 / 10 ** 4

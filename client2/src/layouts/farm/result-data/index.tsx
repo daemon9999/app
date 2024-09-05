@@ -44,7 +44,7 @@ export default function ResultData({ selectedLoc }: ResultDataProps) {
     totalWater: [],
     wps: [],
   });
-  const url = "164.92.253.215";
+  const url =  "164.92.253.215" 
   const getSpecImage = async () => {
     try {
       const response_1 = await axios.get(

@@ -42,7 +42,7 @@ export default function Features() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 h-auto">
                         
                         {features.map((feature: FeautureItem) => (
-                            <div className="bg-900 text-400 p-4 xs:p-10 flex flex-col gap-y-2  xs:gap-y-4 rounded items-center text-center h-auto">
+                            <div key={feature.id} className="bg-900 text-400 p-4 xs:p-10 flex flex-col gap-y-2  xs:gap-y-4 rounded items-center text-center h-auto">
                                 <span className="rounded-full flex items-center justify-center xs:w-20 xs:h-20 w-16 h-16 bg-100"><feature.icon size={isXs ? 50 : 40}/></span>
                                 <h4 className=" font-semibold text-500 text-xl xs:text-2xl">{feature.title}</h4>
                                 <p className="text-lg xs:text-xl">{feature.description}</p>

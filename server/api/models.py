@@ -6,6 +6,7 @@ import torch
 import rasterio
 import json
 from shapely import Point, Polygon
+import geopandas as gpd
 from .utils.process_soil_moisture import (
     ANGLE,
     get_field_spec,
@@ -48,17 +49,6 @@ class Processor(models.Model):
         self.field_id = field_id
         self.save()
 
-    def get_spec(self) -> np.ndarray:
-        """The function to generate spectrum with soil moisture map and save"""
-        spec, src = get_field_spec(field_id=self.field_id)
-        sm_map, _, _= self.get_sm_map()
-        poly = load_geojson(field_id=self.field_id)     
-
-        spec_formatted = format_spec(spec=spec, sm_map=sm_map, poly=poly, src=src)
-        spec_image = convert2image(spec_formatted.transpose([1, 2, 0]))
-        imgPath =  os.path.join(current_dir, 'images', 'field_{}.png'.format(self.field_id))
-        spec_image.save(imgPath)
-        return  open(imgPath, 'rb')    
 
 
     def get_spec(self) -> np.ndarray:
@@ -114,7 +104,6 @@ class Processor(models.Model):
 
         spec, src = get_field_spec(field_id=self.field_id)
         sm_map, _, _= self.get_sm_map()
-        poly = load_geojson(field_id=self.field_id)     
 
         spec_formatted = format_spec(spec=spec, sm_map=sm_map, poly=poly, src=src)
         imgPath =  os.path.join(current_dir, 'images', 'field_{}.png'.format(self.field_id))
@@ -131,8 +120,9 @@ class Processor(models.Model):
         else:
             data['Problems'].append('Water distribution is normal')
             data['Recommendations'].append('No irrigation is needed')
-            
         return data
+    
+    
     def get_status_report(self, sm: np.ndarray) -> str:
         status = sm.mean()
       
@@ -166,8 +156,6 @@ class Processor(models.Model):
         lats = lats.reshape(-1)
 
         indexes = []
-        for i in range(lats.size):
-            point = Point([lons[i], lats[i]])
-            if point.within(poly):
-                indexes.append(i)
-        return np.array(indexes)
+        points = gpd.points_from_xy(lons, lats)
+        indexes = np.where(points.within(poly))[0]
+        return indexes
